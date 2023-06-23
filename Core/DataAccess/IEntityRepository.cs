@@ -1,5 +1,5 @@
-﻿using Entities.Abstract;
-using Entities.Concrete;
+﻿
+using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAcces.Abstract
+namespace Core.DataAcces
 {
-    public interface IEntityRepository<T> where T:class,IEntities,new()
+    public interface IEntityRepository<T> where T:class,IEntity,new()
     {
         List<T> GetAll(Expression<Func<T, bool>> filter = null);
         void Add(T entity);

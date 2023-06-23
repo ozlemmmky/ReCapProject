@@ -1,5 +1,7 @@
-﻿using DataAcces.Abstract;
+﻿using Core.DataAccess.EntityFramework;
+using DataAcces.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,51 +12,25 @@ using System.Threading.Tasks;
 
 namespace DataAcces.Concrete.EntitiyFramework
 {
-    public class EfCarDal : ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, CarsContext>, ICarDal
     {
-        public void Add(Car entity)
+       
+        public List<CarDetailDto> GetCarDetail()
         {
-            using (CarsContext carsContext= new CarsContext())
-            {
-                var addedCar= carsContext.Entry(entity);
-                addedCar.State= EntityState.Added; 
-                carsContext.SaveChanges();
-                Console.WriteLine("Added" + entity.Description);
+            using (CarsContext context = new CarsContext())
+            { var result = from c in context.Cars
+                           join b in context.Brands
+                            on c.BrandId equals b.BrandId
+                         //   from c in context.Cars
+                            join color in context.Colors
+                            on c.ColorId equals color.ColorId
+                            select new CarDetailDto { Id = c.Id, ColorName = color.ColorName, BrandName = b.BrandName, 
+                             Description = c.Description, DailyPrice = c.DailyPrice };
+
+                return result.ToList();
 
             }
         }
 
-        public void Delete(Car entity)
-        {
-           
-            using(CarsContext carsContext= new CarsContext())
-            {
-                var deletedCars= carsContext.Entry(entity);
-                deletedCars.State= EntityState.Deleted;
-                carsContext.SaveChanges();
-            }
-        }
-
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (CarsContext carsContext = new CarsContext())
-            {
-                return filter == null ?
-                carsContext.Set<Car>().ToList() :
-                carsContext.Set<Car>().Where(filter).ToList();
-
-            }
-
-        }
-        public void Update(Car entity)
-        {
-            using (CarsContext carsContext = new CarsContext())
-            {
-                var updatedCar= carsContext.Entry(entity);
-                updatedCar.State= EntityState.Modified;
-                carsContext.SaveChanges();
-
-            }
-        }
     }
 }

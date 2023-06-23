@@ -1,5 +1,6 @@
 ﻿using DataAcces.Concrete.InMemory;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Business.Abstract
         List<Car> GetAll();
         List<Car> GetCarsBrandId(int id );
         List<Car> GetCarsColorId(int id);
+        List<CarDetailDto> GetCarDetail();
 
         void Add(Car car);
 
