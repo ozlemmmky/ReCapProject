@@ -21,12 +21,13 @@ namespace Business.Concrete
 
         public IResult Add(Rental rental)
         {
-            if(rental.ReturnDate==null)  
+            if (rental.ReturnDate == null)
             {
                 _rentalDal.Add(rental);
                 return new SucccessResult(Messages.Added);
             }
             return new ErrorResult();
+
         }
 
         public IResult Delete(Rental rental)
