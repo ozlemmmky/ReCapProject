@@ -1,12 +1,69 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Business.Abstract;
+using Entities.Concrete;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
+
     public class UsersController : Controller
     {
-        public IActionResult Index()
+      IUserService _userService;
+        public UsersController(IUserService userService)
         {
-            return View();
+            _userService = userService;
+        }
+        [HttpPost("Add")]
+        public IActionResult Add(User user)
+        {
+            var result=_userService.Add(user);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpPost("Update")]
+        public IActionResult Update(User user) 
+        {
+            var result=_userService.Update(user);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpPost("Delete")]
+        public IActionResult Delete(User user)
+        {
+            var result=_userService.Delete(user);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("GetAll")]
+        public IActionResult GetAll() 
+        {
+            var result = _userService.GetAll();
+            if(result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("GetById")]
+        public IActionResult GetById(int id) 
+        {
+            var result = _userService.GetId(id);
+            if(result.Success )
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }
