@@ -18,10 +18,13 @@ namespace ConsoleUI
             //BrandTest();
             // CustomerAdd();
             //UserAdd();
-            RentalManager rentalManager = new RentalManager(new EfRentalDal());
-            //rentalManager.Add(new Rental() { CarId=1,CustomerId=1,RentDate=DateTime.Now});
-           rentalManager.Add(new Rental() { CarId = 2, CustomerId = 3, RentDate = DateTime.Now });
-            
+            // RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            // //rentalManager.Add(new Rental() { CarId=1,CustomerId=1,RentDate=DateTime.Now});
+            //rentalManager.Add(new Rental() { CarId = 2, CustomerId = 3, RentDate = DateTime.Now });
+
+
+           // CarImageManager carImageManager = new CarImageManager(new EfCarImageDal());
+           //Console.WriteLine( carImageManager.GetAll());
            
             
 

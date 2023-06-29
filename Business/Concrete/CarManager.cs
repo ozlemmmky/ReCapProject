@@ -1,12 +1,15 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Helpers.FileHelper;
 using Core.Utilities.Results;
 using DataAcces.Abstract;
 using DataAcces.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,16 +23,18 @@ namespace Business.Concrete
     {
 
         ICarDal _carDal;
+       
 
         public CarManager(ICarDal carDal)
         {
-            _carDal= carDal;    
+            _carDal= carDal;  
+            
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car )
-        {
-            ValidationTool.Validate(new CarValidator(), car);
-           
+        {     
+
              _carDal.Add(car);
             return new SucccessResult(Messages.Added);
             
